@@ -14,7 +14,6 @@
         <title>POST Form Data as JSON with JavaScript Fetch API</title>
 
         <style type="text/css"> 
-  
             label { 
               font: 18px; 
             } 
@@ -31,8 +30,8 @@
             }     
             .txt {
                 display: inline-block;
-                  width: 80%;
-                  outline: none;
+                width: 80%;
+                outline: none;
                 margin:0;
             }
         </style> 
@@ -47,13 +46,13 @@
     <center>
     <form class="form" method="GET" style="background-color:#d8f7cf" width="100px" border="1">
         <br>
-        <center><h4>Ingrese su identificación de usuario y password</h4></center>
+        <center><h4>Ingrese su correo electrónico y contraseña</h4></center>
         <table>
             <tr style="height:10px;">
-                <td><label for="cliForm" class="form-label">Cliente</label></td>               
+                <td><label for="emailForm" class="form-label">Correo Electrónico</label></td>               
             </tr>
             <tr style="height:10px;">    
-                <td><input class="txt" name="id" type="text" placeholder="id"><br></td>
+                <td><input class="txt" name="email" type="text" placeholder="Correo Electrónico"><br></td>
             </tr>
             <tr style="height:10px;">
                 <td><label for="passForm" class="form-label">Password</label></td>               
@@ -64,11 +63,8 @@
             <tr>
                 <center><td><a href="http://127.0.0.1:5500/loginClient.html">Nuevo cliente</a></td></center>
                 <center><td><a href="http://127.0.0.1:5500/loginClient.html">¿Olvido su password?</a></td></center>
-
             </tr>
-
         </table>
-        
         
         <p>¡Todo lo que Ud. diga o haga en éste sistema podrá ser usado en su contra!</p>
         <input name="termscondition" type="checkbox"> Acepto los términos y condiciones del ingreso al sistema (S.E.u.O)</p></br>
@@ -84,6 +80,5 @@
     
     <!-- Script a ser ejecutado --> 
     <script src="loginClient.js" type="module"></script>
-    
-
 </body>
+</html>

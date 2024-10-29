@@ -232,10 +232,75 @@ app.post('/api/addCliente', (req, res) => {
     });
 });
 
+/*---
+    /api/loginClienteEmail
+    Esta API permite acceder a un cliente por su correo electrónico (contacto) y comparar la password pasada como parámetro en la URL.
+*/  
+app.get('/api/loginClienteEmail', async (req, res) => {
+
+    const { contacto, password } = req.query;  // Se extraen los parámetros desde la URL
+
+    console.log(`loginClienteEmail: contacto(${contacto}) password(${password})`);
+
+    if (!password) {
+        res.status(400).send({ response: "ERROR", message: "Password no informada" });
+        return;
+    }
+
+    if (!contacto) {
+        res.status(400).send({ response: "ERROR", message: "Correo no informado" });
+        return;
+    }
+
+    // Función para hacer el scan de DynamoDB usando 'contacto' como clave
+    let scanDbByEmail = function () {
+        var params = {
+            TableName: "cliente",
+            FilterExpression: 'contacto = :contacto',
+            ExpressionAttributeValues: {
+                ':contacto': contacto
+            }
+        };
+
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                res.status(400).send(JSON.stringify({ response: "ERROR", message: "DB access error: " + err }));
+            } else {
+                if (data.Items.length === 0) {
+                    res.status(400).send({ response: "ERROR", message: "Cliente no encontrado" });
+                } else {
+                    const cliente = data.Items[0];
+                    const storedPassword = cliente.password;
+                    const activo = cliente.activo;
+
+                    if (password === storedPassword) {
+                        if (activo) {
+                            const { id, nombre, fecha_ultimo_ingreso } = cliente;
+                            res.status(200).send({
+                                response: "OK",
+                                id: id,
+                                nombre: nombre,
+                                fecha_ultimo_ingreso: fecha_ultimo_ingreso
+                            });
+                        } else {
+                            res.status(400).send({ response: "ERROR", message: "Cliente no activo" });
+                        }
+                    } else {
+                        res.status(400).send({ response: "ERROR", message: "Password incorrecta" });
+                    }
+                }
+            }
+        });
+    };
+
+    scanDbByEmail();
+});
+
+
 
 
     /**Listar Clientes GET */
-    app.get('/api/listarClientes', (req,res) => {
+    app.get('/api/listCliente', (req,res) => {
         scanDBClients()
         .then(resultDb => {
             console.log(resultDb)

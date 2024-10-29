@@ -94,7 +94,7 @@
     <script>
         async function showClients() {
             try {
-                const response = await fetch('http://localhost:8080/api/listarClientes');
+                const response = await fetch('http://localhost:8080/api/listCliente');
                 const data = await response.json();
 
                 if (data.response === "OK") {
